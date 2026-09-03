@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,11 +14,298 @@
       content="Licensed C-10 electrical contractor serving the San Fernando Valley and Los Angeles since 1979. Free estimates."
     />
     <meta name="theme-color" content="#0F3D2A" />
-    <link rel="icon" type="image/svg+xml" href="/kremin-electric-review/favicon.svg" />
-    <script type="module" crossorigin src="/kremin-electric-review/assets/index-BsNmBa03.js"></script>
-    <link rel="stylesheet" crossorigin href="/kremin-electric-review/assets/index-DSKjWYg9.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span class="brand-name">Kremin Electric</span>
+            <span class="brand-sub">Licensed C-10 · Granada Hills</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#area">Area</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-cta">
+          <a class="btn btn-ghost header-ghost" href="#contact">Free estimate</a>
+          <a class="btn btn-fill call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <img
+          class="hero-bleed"
+          src="images/hero-recessed-install.jpg"
+          srcset="images/hero-recessed-install-1280.jpg 1280w, images/hero-recessed-install.jpg 2048w"
+          sizes="100vw"
+          alt="Gloved hands seating a recessed light into a finished ceiling."
+          width="2048"
+          height="1365"
+        />
+        <div class="hero-wash" aria-hidden="true"></div>
+        <svg class="sun-arc" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="78" />
+          <circle cx="100" cy="100" r="54" />
+        </svg>
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">California C-10 license #380250</p>
+          <h1>Granada Hills electrician. Family-owned since 1979.</h1>
+          <p class="hero-sub">
+            San Fernando Valley, Los Angeles, Pasadena, Burbank, Glendale, and Western Ventura County.
+          </p>
+          <p class="hero-body">
+            I am William Kremin. Most customers call me Bill. I look at your project myself and send a written
+            estimate by email or in person.
+          </p>
+          <p class="hero-proof">Free estimates · One-year labor and parts guarantee</p>
+          <div class="hero-actions">
+            <a class="btn btn-fill call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a>
+            <a class="btn btn-ghost" href="#contact">Free estimate</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust" aria-label="Shop facts" data-reveal>
+        <ul>
+          <li>
+            <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <span>Family-owned since 1979</span>
+          </li>
+          <li>
+            <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>California C-10 #380250</span>
+          </li>
+          <li>
+            <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+            </svg>
+            <span>Free written estimates</span>
+          </li>
+          <li>
+            <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M12 8v4l3 3" /><circle cx="12" cy="12" r="10" />
+            </svg>
+            <span>One-year labor and parts guarantee</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="services" id="services">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">What we do</p>
+          <h2>Residential, commercial, and industrial electrical work.</h2>
+        </div>
+
+        <article class="river" data-reveal>
+          <figure>
+            <img
+              src="images/generated/svc-panel.jpg"
+              alt="Diagram of a residential panel upgrade."
+              width="1400"
+              height="933"
+            />
+          </figure>
+          <div class="river-copy">
+            <h3>Panel upgrades and rewiring</h3>
+            <p>Service upgrades, new circuits, and the work that keeps an older home safe.</p>
+          </div>
+        </article>
+
+        <article class="river river-flip" data-reveal>
+          <figure>
+            <img
+              src="images/generated/svc-lighting.jpg"
+              alt="Diagram of recessed lights and a ceiling fan."
+              width="1400"
+              height="933"
+            />
+          </figure>
+          <div class="river-copy">
+            <h3>Lighting and fixtures</h3>
+            <p>Recessed lighting, ceiling fans, apartment and condominium lighting maintenance.</p>
+          </div>
+        </article>
+
+        <article class="river" data-reveal>
+          <figure>
+            <img
+              src="images/generated/svc-repairs.jpg"
+              alt="Diagram of an outlet test with a multimeter."
+              width="1400"
+              height="933"
+            />
+          </figure>
+          <div class="river-copy">
+            <h3>Repairs and troubleshooting</h3>
+            <p>Outlets, breakers, and the call when something stops working.</p>
+          </div>
+        </article>
+
+        <article class="river river-flip" data-reveal>
+          <figure>
+            <img
+              src="images/generated/svc-commercial.jpg"
+              alt="Diagram of commercial conduit and switchgear."
+              width="1400"
+              height="933"
+            />
+          </figure>
+          <div class="river-copy">
+            <h3>Commercial and industrial</h3>
+            <p>Tenant improvements, maintenance contracts, and jobs that need a licensed crew on site.</p>
+          </div>
+        </article>
+
+        <p class="section-cta">
+          <a class="btn btn-fill call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a>
+        </p>
+      </section>
+
+      <section class="work" aria-label="Recent installs" data-reveal>
+        <div class="work-grid">
+          <figure>
+            <img
+              src="images/hero-recessed-lighting.jpg"
+              alt="Recessed lighting installed by Kremin Electric in a Granada Hills home."
+              width="1000"
+              height="750"
+            />
+          </figure>
+          <figure>
+            <img
+              src="images/work-ceiling-fan.jpg"
+              alt="Ceiling fan installation completed by Kremin Electric."
+              width="750"
+              height="1000"
+            />
+          </figure>
+          <figure>
+            <img
+              src="images/work-gfci-outlet.jpg"
+              alt="GFCI receptacle installed beside a bathroom water line."
+              width="750"
+              height="1000"
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section class="about" id="about">
+        <div class="about-grid" data-reveal>
+          <div>
+            <p class="eyebrow">About</p>
+            <h2>Bill Kremin and our crew.</h2>
+            <p class="about-sub">Faith, family, friends — and the customers who send their neighbors.</p>
+          </div>
+          <div class="about-body">
+            <p>
+              We have served Granada Hills and the Valley since 1979. Nancy runs daily operations. Mark Medina is our
+              foreman. Our sons Eric, Chris, and Devon grew up in the trade. Most of our work still comes from referrals.
+            </p>
+            <ul>
+              <li>Free written estimates on every job.</li>
+              <li>One-year guarantee on labor and materials we furnish.</li>
+              <li>10% discount for seniors, veterans, and new customers.</li>
+            </ul>
+            <a class="text-link" href="mailto:ELECRFD@yahoo.com">Email ELECRFD@yahoo.com</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="area" id="area">
+        <svg class="sun-arc sun-arc-area" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="78" />
+          <circle cx="100" cy="100" r="54" />
+        </svg>
+        <div class="area-inner" data-reveal>
+          <div>
+            <p class="eyebrow">Area</p>
+            <h2>Where we work.</h2>
+            <p class="area-address">11024 Balboa Blvd., Suite 770, Granada Hills.</p>
+          </div>
+          <p>
+            We dispatch from Granada Hills across the San Fernando Valley, greater Los Angeles, Santa Clarita, Pasadena,
+            Burbank, Glendale, and Western Ventura County.
+          </p>
+          <p class="place-line">Granada Hills · San Fernando Valley · Los Angeles · Pasadena · Burbank · Glendale</p>
+          <a class="btn btn-fill call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact-grid" data-reveal>
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>Call or write for a free estimate.</h2>
+            <address>
+              11024 Balboa Blvd., Suite 770<br />Granada Hills, CA 91344
+            </address>
+            <p><a class="text-link call-nowrap" href="tel:+18183688809">(818) 368-8809</a></p>
+            <p><a class="text-link" href="mailto:ELECRFD@yahoo.com">ELECRFD@yahoo.com</a></p>
+          </div>
+          <form class="contact-form" action="mailto:ELECRFD@yahoo.com" method="post" enctype="text/plain">
+            <p class="form-kicker">Describe the job</p>
+            <label>Name<input name="name" type="text" autocomplete="name" required /></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required /></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel" /></label>
+            <label>Message<textarea name="message" rows="4" required></textarea></label>
+            <p class="form-note">Opens your email client to ELECRFD@yahoo.com with the fields in the body. Do not send account numbers or gate codes here.</p>
+            <button class="btn btn-fill" type="submit">Send message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© Kremin Electric. California C-10 license #380250.</p>
+      <p><a class="call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a></p>
+    </footer>
+
+    <div class="call-dock" aria-label="Call Kremin Electric">
+      <a class="btn btn-fill call-nowrap" href="tel:+18183688809">Call (818) 368-8809</a>
+    </div>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["Electrician", "LocalBusiness"],
+        "name": "Kremin Electric",
+        "alternateName": "William Kremin Electrical Contractor Inc",
+        "url": "https://kreminelectric.com/",
+        "telephone": "+1-818-368-8809",
+        "email": "ELECRFD@yahoo.com",
+        "foundingDate": "1979",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "11024 Balboa Blvd., Suite 770",
+          "addressLocality": "Granada Hills",
+          "addressRegion": "CA",
+          "postalCode": "91344",
+          "addressCountry": "US"
+        }
+      }
+    </script>
+    <script src="motion.js" defer></script>
   </body>
 </html>
