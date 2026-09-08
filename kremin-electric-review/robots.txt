@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kreminelectric.com/sitemap.xml

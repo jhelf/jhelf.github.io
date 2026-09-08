@@ -1,5 +1,5 @@
 // Jean motion system — Expo ease, transform/opacity only, prefers-reduced-motion respected.
-// See skills/jean-motion-system.md. No page-transition cinema, no WebGL.
+// See craft.md. No page-transition cinema, no WebGL.
 (function () {
   "use strict";
 

@@ -1,32 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>__NAME__</title>
-    <meta name="description" content="" />
-    <link rel="stylesheet" href="styles.css" />
+
+    <title>__NAME__ | __TOWN__ __TRADE__</title>
+    <meta name="description" content="Replace with the Meta description from copy.md. Under 160 characters, says what they do, the town, and the phone number." />
+    <link rel="canonical" href="__DOMAIN__/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="__DOMAIN__/" />
+    <meta property="og:title" content="Replace with the og:title from copy.md" />
+    <meta property="og:description" content="Replace with the og:description from copy.md" />
+    <meta property="og:image" content="__DOMAIN__/images/hero.jpg" />
+    <meta name="theme-color" content="#111111" />
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "__DOMAIN__/#business",
+        "name": "__NAME__",
+        "url": "__DOMAIN__/",
+        "telephone": "+1",
+        "image": "__DOMAIN__/images/hero.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "",
+          "addressRegion": "CA",
+          "postalCode": "",
+          "addressCountry": "US"
+        },
+        "areaServed": []
+      }
+    </script>
   </head>
+
   <body>
     <a class="skip" href="#main">Skip to content</a>
+
     <header class="site-header">
       <a class="brand" href="#top">__NAME__</a>
-      <nav><a href="#services">Services</a><a href="#contact">Contact</a></nav>
-      <a class="btn btn-fill call-nowrap" href="tel:+1">Call</a>
+      <nav aria-label="Sections">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-fill call-nowrap" href="tel:+1">Call (000) 000-0000</a>
     </header>
+
     <main id="main">
       <section class="hero" id="top">
-        <img class="hero-img" data-hero-img src="images/hero.jpg" alt="" />
+        <img
+          class="hero-img"
+          data-hero-img
+          src="images/hero.jpg"
+          alt="Replace with the hero alt text from copy.md"
+          width="2400"
+          height="1350"
+          fetchpriority="high"
+        />
         <div class="hero-copy">
-          <h1 data-reveal data-stagger="0">Replace with Copy.md</h1>
-          <p data-reveal data-stagger="1"></p>
-          <a class="btn btn-fill call-nowrap" data-reveal data-stagger="2" href="tel:+1">Call</a>
+          <h1 data-reveal data-stagger="0">Replace with the H1 from copy.md</h1>
+          <p data-reveal data-stagger="1">Replace with the hero body from copy.md</p>
+          <p class="hero-actions">
+            <a class="btn btn-fill call-nowrap" data-reveal data-stagger="2" href="tel:+1">Call (000) 000-0000</a>
+            <a class="btn btn-ghost" data-reveal data-stagger="3" href="#contact">Replace with the ghost CTA</a>
+          </p>
         </div>
       </section>
-      <section id="services"></section>
-      <section id="contact"></section>
+
+      <section id="services" aria-labelledby="services-title">
+        <h2 id="services-title" data-reveal>Replace with the services H2</h2>
+        <!-- River: one row per service. Illustration and text swap sides each row. -->
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title" data-reveal>Replace with the contact H2</h2>
+      </section>
     </main>
+
+    <footer class="site-footer">
+      <p>&copy; __NAME__</p>
+    </footer>
+
     <script src="motion.js" defer></script>
   </body>
 </html>
