@@ -152,6 +152,25 @@ a { color: inherit; }
   transform: translate3d(0, 0, 0);
 }
 
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -195,6 +214,7 @@ a { color: inherit; }
   object-position: 62% 40%;
   opacity: 0;
   transition: opacity var(--dur-hero) var(--ease-out-expo);
+  will-change: transform;
 }
 .hero.is-in .hero-img,
 .hero-img.is-in { opacity: 1; }
@@ -376,9 +396,10 @@ figcaption {
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
+  [data-reveal="cascade"] > *,
   .hero-img {
     opacity: 1;
-    transform: none;
+    transform: none !important;
     transition: none;
   }
   .btn:hover { transform: none; }

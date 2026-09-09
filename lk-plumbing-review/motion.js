@@ -1,57 +1,95 @@
-// Jean motion system — Expo ease, transform/opacity only, prefers-reduced-motion respected.
-// See craft.md. No page-transition cinema, no WebGL.
-(function () {
-  "use strict";
+// Jean's motion. Transform and opacity only, Expo easing, reduced motion respected.
+//
+// Three hooks, and the verifier checks for them:
+//   [data-hero-img]        the hero plate. Fades in, then tracks scroll as parallax.
+//   [data-reveal]          the block slides up as one unit when it reaches 80% of the viewport.
+//   [data-reveal="cascade"] the block's children come in one after another, top first.
+//
+// A cascade is for elements that belong together and read in order: eyebrow, then
+// heading, then body, then the CTAs. Order comes from the DOM, so there is nothing
+// to hand-number and the top element cannot end up last.
+(() => {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const headerOffset = 88;
+  const hero = document.querySelector("[data-hero-img]");
+  const blocks = [...document.querySelectorAll("[data-reveal], .reveal")];
 
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const BASE_DELAY = 0.2; // pre-delay, keeps the first screen from twitching on load
+  const STEP = 0.09; // between siblings in a cascade
+  const STEP_CAP = 7; // stop stepping after this many children
 
-  if (reduceMotion) {
-    document.querySelectorAll("[data-reveal]").forEach(function (el) {
-      el.classList.add("is-visible");
-    });
+  const isCascade = (el) => el.getAttribute("data-reveal") === "cascade";
+
+  if (reduced) {
+    blocks.forEach((el) => el.classList.add("is-in"));
+    if (hero) hero.classList.add("is-in");
     return;
   }
 
-  var revealTargets = document.querySelectorAll("[data-reveal]");
-
-  if (!("IntersectionObserver" in window) || revealTargets.length === 0) {
-    revealTargets.forEach(function (el) {
-      el.classList.add("is-visible");
+  blocks.forEach((block) => {
+    const base = BASE_DELAY + Number(block.getAttribute("data-stagger") || 0) * 0.1;
+    if (!isCascade(block)) {
+      block.style.transitionDelay = `${base.toFixed(2)}s`;
+      return;
+    }
+    [...block.children].forEach((child, i) => {
+      child.style.transitionDelay = `${(base + Math.min(i, STEP_CAP) * STEP).toFixed(2)}s`;
     });
-  } else {
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -20% 0px", threshold: 0.05 }
-    );
+  });
 
-    revealTargets.forEach(function (el) {
-      observer.observe(el);
-    });
+  if (hero) requestAnimationFrame(() => hero.classList.add("is-in"));
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          return;
+        }
+        const r = e.boundingClientRect;
+        if (r.bottom < 0 || r.top > innerHeight) e.target.classList.remove("is-in");
+      });
+    },
+    { rootMargin: "0px 0px -20% 0px", threshold: 0 },
+  );
+  blocks.forEach((el) => io.observe(el));
+
+  // Hero parallax. Half the travel on a narrow screen, and only while the hero is
+  // on screen. The plate is oversized inside an overflow clip so it cannot leak.
+  if (hero) {
+    const frame = hero.closest(".hero") || hero.parentElement;
+    let queued = false;
+
+    const track = () => {
+      queued = false;
+      if (!frame) return;
+      const r = frame.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const rate = innerWidth < 750 ? 0.06 : 0.12;
+      const y = Math.max(-80, Math.min(80, -r.top * rate));
+      hero.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    };
+
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(track);
+    };
+
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll, { passive: true });
+    track();
   }
 
-  // Sticky header shrink is intentionally skipped — chrome (header, sticky
-  // Call dock) must be tappable immediately, no animation on entry.
-
-  // In-page hash scroll: offset for the sticky header so anchors land
-  // below the fold, not underneath it.
-  var header = document.querySelector(".site-header");
-
-  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      var id = link.getAttribute("href").slice(1);
-      var target = id ? document.getElementById(id) : null;
-      if (!target) return;
-      event.preventDefault();
-      var headerH = header ? header.getBoundingClientRect().height : 0;
-      var top = target.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
-      window.scrollTo({ top: top, behavior: "smooth" });
-    });
+  document.addEventListener("click", (event) => {
+    const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
+    if (!link) return;
+    const id = link.getAttribute("href")?.slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    event.preventDefault();
+    const top = target.getBoundingClientRect().top + scrollY - headerOffset;
+    scrollTo({ top, behavior: "smooth" });
   });
 })();

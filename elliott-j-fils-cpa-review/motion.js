@@ -1,78 +1,95 @@
+// Jean's motion. Transform and opacity only, Expo easing, reduced motion respected.
+//
+// Three hooks, and the verifier checks for them:
+//   [data-hero-img]        the hero plate. Fades in, then tracks scroll as parallax.
+//   [data-reveal]          the block slides up as one unit when it reaches 80% of the viewport.
+//   [data-reveal="cascade"] the block's children come in one after another, top first.
+//
+// A cascade is for elements that belong together and read in order: eyebrow, then
+// heading, then body, then the CTAs. Order comes from the DOM, so there is nothing
+// to hand-number and the top element cannot end up last.
 (() => {
-  const expo = "cubic-bezier(0.23, 1, 0.32, 1)";
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const headerOffset = 88;
+  const hero = document.querySelector("[data-hero-img]");
+  const blocks = [...document.querySelectorAll("[data-reveal], .reveal")];
 
-  const headerOffset = () => {
-    const header = document.querySelector(".site-header");
-    return (header ? header.offsetHeight : 72) + 12;
-  };
+  const BASE_DELAY = 0.2; // pre-delay, keeps the first screen from twitching on load
+  const STEP = 0.09; // between siblings in a cascade
+  const STEP_CAP = 7; // stop stepping after this many children
 
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const id = link.getAttribute("href");
-      if (!id || id === "#") return;
-      const target = document.querySelector(id);
-      if (!target) return;
-      event.preventDefault();
-      if (reduced) {
-        target.scrollIntoView();
-        return;
-      }
-      const top = target.getBoundingClientRect().top + window.scrollY - headerOffset();
-      const start = window.scrollY;
-      const dist = top - start;
-      const dur = 900;
-      const t0 = performance.now();
-      const ease = (t) => 1 - Math.pow(1 - t, 4);
-      const step = (now) => {
-        const p = Math.min(1, (now - t0) / dur);
-        window.scrollTo(0, start + dist * ease(p));
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    });
-  });
+  const isCascade = (el) => el.getAttribute("data-reveal") === "cascade";
 
   if (reduced) {
-    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"));
+    blocks.forEach((el) => el.classList.add("is-in"));
+    if (hero) hero.classList.add("is-in");
     return;
   }
 
-  const blocks = [...document.querySelectorAll(".reveal")];
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const i = Number(entry.target.dataset.stagger || 0);
-          entry.target.style.transitionDelay = `${0.2 + i * 0.1}s`;
-          entry.target.classList.add("is-in");
-        } else if (entry.boundingClientRect.bottom < 0 || entry.boundingClientRect.top > window.innerHeight) {
-          entry.target.classList.remove("is-in");
-          entry.target.style.transitionDelay = "0s";
-        }
-      });
-    },
-    { rootMargin: "0px 0px -20% 0px", threshold: 0.01 },
-  );
-
-  blocks.forEach((el, i) => {
-    if (!el.dataset.stagger) el.dataset.stagger = String(Math.min(i % 4, 3));
-    el.style.willChange = "transform, opacity";
-    io.observe(el);
+  blocks.forEach((block) => {
+    const base = BASE_DELAY + Number(block.getAttribute("data-stagger") || 0) * 0.1;
+    if (!isCascade(block)) {
+      block.style.transitionDelay = `${base.toFixed(2)}s`;
+      return;
+    }
+    [...block.children].forEach((child, i) => {
+      child.style.transitionDelay = `${(base + Math.min(i, STEP_CAP) * STEP).toFixed(2)}s`;
+    });
   });
 
-  const heroImg = document.querySelector(".hero-bleed");
-  const hero = document.querySelector(".hero");
-  if (heroImg && hero) {
-    const onScroll = () => {
-      const rect = hero.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      const shift = Math.max(-60, Math.min(60, -rect.top * 0.15));
-      heroImg.style.transform = `translate3d(0, ${shift}px, 0)`;
+  if (hero) requestAnimationFrame(() => hero.classList.add("is-in"));
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          return;
+        }
+        const r = e.boundingClientRect;
+        if (r.bottom < 0 || r.top > innerHeight) e.target.classList.remove("is-in");
+      });
+    },
+    { rootMargin: "0px 0px -20% 0px", threshold: 0 },
+  );
+  blocks.forEach((el) => io.observe(el));
+
+  // Hero parallax. Half the travel on a narrow screen, and only while the hero is
+  // on screen. The plate is oversized inside an overflow clip so it cannot leak.
+  if (hero) {
+    const frame = hero.closest(".hero") || hero.parentElement;
+    let queued = false;
+
+    const track = () => {
+      queued = false;
+      if (!frame) return;
+      const r = frame.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const rate = innerWidth < 750 ? 0.06 : 0.12;
+      const y = Math.max(-80, Math.min(80, -r.top * rate));
+      hero.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(track);
+    };
+
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll, { passive: true });
+    track();
   }
 
-  document.documentElement.style.setProperty("--ease-out-expo", expo);
+  document.addEventListener("click", (event) => {
+    const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
+    if (!link) return;
+    const id = link.getAttribute("href")?.slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    event.preventDefault();
+    const top = target.getBoundingClientRect().top + scrollY - headerOffset;
+    scrollTo({ top, behavior: "smooth" });
+  });
 })();

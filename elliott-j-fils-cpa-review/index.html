@@ -56,13 +56,14 @@
       <section class="hero" id="top">
         <img
           class="hero-bleed"
+          data-hero-img
           src="images/generated/hero-desk-signing.jpg"
           alt="Hands signing a tax document at a wood desk with a calculator — no faces visible."
           width="2400"
           height="1600"
         />
         <div class="hero-wash" aria-hidden="true"></div>
-        <div class="hero-copy reveal" data-stagger="0">
+        <div class="hero-copy" data-reveal="cascade">
           <p class="eyebrow"><span class="bracket-inline" aria-hidden="true">[</span> Sherman Oaks · Los Angeles</p>
           <h1>Sherman Oaks CPA for owners and families.</h1>
           <p class="hero-sub">Tax planning, business management, and CFO-level advice on Ventura Boulevard.</p>
@@ -79,26 +80,26 @@
       </section>
 
       <section class="trust" aria-label="Practice facts">
-        <ul>
-          <li class="reveal" data-stagger="0">
+        <ul data-reveal="cascade">
+          <li>
             <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
             </svg>
             <span>One CPA on your work — not a rotating staff</span>
           </li>
-          <li class="reveal" data-stagger="1">
+          <li>
             <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
               <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
             </svg>
             <span>25+ years with entrepreneurs under $30M revenue</span>
           </li>
-          <li class="reveal" data-stagger="2">
+          <li>
             <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
             </svg>
             <span>Tax, books, and CFO-level advice</span>
           </li>
-          <li class="reveal" data-stagger="3">
+          <li>
             <svg class="icon-28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
@@ -108,7 +109,7 @@
       </section>
 
       <section class="services" id="services">
-        <div class="section-head reveal">
+        <div class="section-head" data-reveal="cascade">
           <p class="eyebrow">What we do</p>
           <h2>Tax, books, and the decisions behind both.</h2>
         </div>
@@ -191,13 +192,13 @@
       </section>
 
       <section class="about" id="about">
-        <div class="about-grid reveal">
-          <div>
+        <div class="about-grid">
+          <div data-reveal="cascade">
             <p class="eyebrow">About</p>
             <h2>Elliott Fils. One advisor on Ventura.</h2>
             <p class="about-sub">Former CFO. Now a Sherman Oaks practice built on direct work.</p>
           </div>
-          <div class="about-body">
+          <div class="about-body" data-reveal="cascade">
             <p>
               I opened Elliott J. Fils, CPA in Sherman Oaks after years as a CFO in Los Angeles communications and
               public relations. I work with entrepreneurs, executives, and families who want one CPA they can call —
@@ -214,7 +215,7 @@
       </section>
 
       <section class="area" id="area">
-        <div class="area-inner reveal">
+        <div class="area-inner" data-reveal="cascade">
           <div>
             <p class="eyebrow"><span class="bracket-inline" aria-hidden="true">[</span> Area</p>
             <h2>Sherman Oaks and greater Los Angeles.</h2>
@@ -230,8 +231,8 @@
       </section>
 
       <section class="contact" id="contact">
-        <div class="contact-grid reveal">
-          <div>
+        <div class="contact-grid">
+          <div data-reveal="cascade">
             <p class="eyebrow">Contact</p>
             <h2>Call or write for a free initial consultation.</h2>
             <p class="contact-sub">Describe your situation and we will set a time.</p>
@@ -242,7 +243,7 @@
             <p>Fax: (818) 475-1771</p>
             <p><a class="text-link" href="mailto:elliott@filscpa.com">elliott@filscpa.com</a></p>
           </div>
-          <form class="contact-form" action="mailto:elliott@filscpa.com" method="post" enctype="text/plain">
+          <form class="contact-form reveal" action="mailto:elliott@filscpa.com" method="post" enctype="text/plain">
             <p class="form-kicker">Get in touch</p>
             <label>Name<input name="name" type="text" autocomplete="name" required /></label>
             <label>Email<input name="email" type="email" autocomplete="email" required /></label>

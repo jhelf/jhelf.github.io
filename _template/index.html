@@ -65,12 +65,14 @@
           height="1350"
           fetchpriority="high"
         />
-        <div class="hero-copy">
-          <h1 data-reveal data-stagger="0">Replace with the H1 from copy.md</h1>
-          <p data-reveal data-stagger="1">Replace with the hero body from copy.md</p>
+        <!-- One cascade per block of copy. Children come in top first, in DOM order. -->
+        <div class="hero-copy" data-reveal="cascade">
+          <p class="kicker">Replace with the eyebrow from copy.md</p>
+          <h1>Replace with the H1 from copy.md</h1>
+          <p>Replace with the hero body from copy.md</p>
           <p class="hero-actions">
-            <a class="btn btn-fill call-nowrap" data-reveal data-stagger="2" href="tel:+1">Call (000) 000-0000</a>
-            <a class="btn btn-ghost" data-reveal data-stagger="3" href="#contact">Replace with the ghost CTA</a>
+            <a class="btn btn-fill call-nowrap" href="tel:+1">Call (000) 000-0000</a>
+            <a class="btn btn-ghost" href="#contact">Replace with the ghost CTA</a>
           </p>
         </div>
       </section>

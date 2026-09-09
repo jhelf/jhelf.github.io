@@ -16,6 +16,7 @@
   --dur-fast: 0.3s;
   --dur-hover: 0.5s;
   --dur-enter: 0.8s;
+  --dur-hero: 1.5s;
   --header-h: 4.5rem;
   --max: 78rem;
 }
@@ -224,10 +225,13 @@ p {
   background: var(--ink);
 }
 
+/* Oversized inside the hero's overflow clip so the parallax cannot leak an edge. */
 .hero-media {
   position: absolute;
-  inset: 0;
+  inset: -7% 0;
+  height: 114%;
   z-index: 0;
+  will-change: transform;
 }
 
 .hero-media picture,
@@ -673,28 +677,37 @@ form.contact-form {
     transform var(--dur-enter) var(--ease-out-expo);
 }
 
-[data-reveal].is-visible {
+[data-reveal].is-in {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
-[data-reveal="stagger"] > * {
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+[data-reveal="cascade"] > * {
   opacity: 0;
-  transform: translate3d(0, 24px, 0);
+  transform: translate3d(0, 40px, 0);
   transition: opacity var(--dur-enter) var(--ease-out-expo),
     transform var(--dur-enter) var(--ease-out-expo);
 }
 
-[data-reveal="stagger"].is-visible > * {
+[data-reveal="cascade"].is-in > * {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
-  [data-reveal="stagger"] > * {
+  [data-reveal="cascade"] > *,
+  .hero-media {
     opacity: 1;
-    transform: none;
+    transform: none !important;
     transition: none;
   }
 }

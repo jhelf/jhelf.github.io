@@ -192,14 +192,22 @@ a {
   color: var(--paper-on-photo);
 }
 
+/* Oversized inside the hero's overflow clip so the parallax cannot leak an edge. */
 .hero-bleed {
   position: absolute;
-  inset: 0;
+  inset: -8% 0;
   width: 100%;
-  height: 100%;
+  height: 116%;
   max-width: none;
   object-fit: cover;
   object-position: 68% 28%;
+  opacity: 0;
+  transition: opacity var(--dur-hero) var(--ease-out-expo);
+  will-change: transform;
+}
+
+.hero-bleed.is-in {
+  opacity: 1;
 }
 
 .hero-wash {
@@ -665,6 +673,7 @@ address {
 
 :root {
   --dur-enter: 0.7s;
+  --dur-hero: 1.5s;
 }
 
 [data-reveal] {
@@ -680,10 +689,33 @@ address {
   transform: translate3d(0, 0, 0);
 }
 
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  [data-reveal],
+  [data-reveal="cascade"] > *,
+  .hero-bleed {
     opacity: 1;
-    transform: none;
+    transform: none !important;
     transition: none;
   }
 }
