@@ -1,0 +1,490 @@
+/* Sandra K Decker CPA — the calm desk in Woodland Hills. */
+:root {
+  --field: #f6f1e7;
+  --field-soft: #efe7d6;
+  --card: #fffdf8;
+  --ink: #20313b;
+  --ink-soft: #43565f;
+  --call: #c0952f;
+  --call-ink: #20313b;
+  --ghost: #fffdf8;
+  --accent: #1e4d3b;
+  --line: #d8cdb4;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo-alt: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --dur-fast: 0.3s;
+  --dur-hover: 0.5s;
+  --dur-enter: 0.7s;
+  --dur-nav: 0.8s;
+  --dur-hero: 1.5s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  margin: 0 0 0.4em;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--field);
+  padding: 0.5rem 1rem;
+}
+
+.kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.9em;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  transition: background var(--dur-fast) var(--ease-out-circ), color var(--dur-fast) var(--ease-out-circ), transform var(--dur-fast) var(--ease-out-circ);
+}
+.btn:hover {
+  transform: translate3d(0, -2px, 0);
+}
+.btn-fill {
+  background: var(--call);
+  color: var(--call-ink);
+}
+.btn-ghost {
+  border: 1px solid currentColor;
+  color: var(--ghost);
+}
+.call-nowrap {
+  white-space: nowrap;
+}
+
+/* Signature flourish: underline grows from the left. */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-out-expo-alt);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Header: wordmark left, jumps, Call pill. Sticky, no motion. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.8rem 4vw;
+  background: var(--field);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  margin-right: auto;
+  white-space: nowrap;
+}
+.site-header nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.site-header .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+/* Hero: full-bleed plate, copy on the image under a directional gradient. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+}
+.hero-img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--dur-hero) var(--ease-out-expo);
+}
+.hero.is-in .hero-img,
+.hero-img.is-in {
+  opacity: 1;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(78deg, rgba(24, 38, 46, 0.82) 0%, rgba(24, 38, 46, 0.55) 42%, rgba(24, 38, 46, 0.12) 72%, rgba(24, 38, 46, 0) 100%);
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 38rem;
+  padding: 6rem 4vw 5rem;
+  color: #fdfaf3;
+}
+.hero-copy .kicker {
+  color: var(--call);
+}
+.hero-copy p {
+  font-size: 1.15rem;
+  max-width: 32rem;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.6rem 0 0;
+}
+
+/* Sections share one rhythm. */
+.services,
+.about,
+.faq,
+.area,
+.contact {
+  padding: 5rem 4vw;
+}
+.section-head {
+  max-width: 38rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Services river: illustration one half, copy the other, flipping sides. */
+.river {
+  display: grid;
+  gap: 3.5rem;
+  max-width: 72rem;
+}
+.flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.flow.flip img {
+  order: 2;
+}
+.flow img {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+.flow div p {
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 30rem;
+}
+
+/* About: the pine slab. */
+.about {
+  background: var(--accent);
+  color: #f6f1e7;
+}
+.about-copy {
+  max-width: 40rem;
+}
+.about-copy .kicker {
+  color: var(--call);
+}
+.about-copy p {
+  color: #e9e2d2;
+}
+
+/* FAQ + reviews share the quiet list treatment. */
+.reviews,
+.faq {
+  padding: 5rem 6vw;
+}
+.reviews .section-head,
+.faq .section-head {
+  max-width: 36rem;
+  margin-bottom: 2rem;
+}
+.faq-list {
+  max-width: 40rem;
+}
+.faq-list details {
+  border-top: 1px solid var(--ink);
+}
+.faq-list details:last-child {
+  border-bottom: 1px solid var(--ink);
+}
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.1rem 0;
+  font-weight: 600;
+}
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.faq-list details p {
+  margin: 0 0 1.15rem;
+  max-width: 42ch;
+  color: var(--ink-soft);
+}
+
+/* Area: one line of towns. */
+.area {
+  background: var(--field-soft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Contact: info column and form column, then the map. */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 72rem;
+  margin-bottom: 3rem;
+}
+.contact-lines {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.contact-lines li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.contact-lines svg {
+  flex: none;
+  margin-top: 0.25rem;
+  color: var(--accent);
+}
+.contact-form {
+  display: grid;
+  gap: 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.75rem;
+}
+.contact-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  width: 100%;
+}
+.map {
+  max-width: 72rem;
+}
+.map iframe {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: block;
+}
+
+.site-footer {
+  background: var(--accent);
+  color: #e9e2d2;
+  padding: 2rem 4vw;
+  font-size: 0.95rem;
+}
+.site-footer p {
+  margin: 0;
+  max-width: 72rem;
+}
+
+/* Mobile call dock: the easiest tap on a narrow screen. */
+.call-dock {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .flow {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .flow.flip img {
+    order: 0;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    gap: 0.75rem;
+    padding: 0.7rem 4vw;
+  }
+  .site-header nav {
+    display: none;
+  }
+  .site-header .btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+  }
+  .brand {
+    font-size: 0.98rem;
+  }
+  .hero-copy {
+    padding: 5rem 5vw 4.5rem;
+  }
+  .call-dock {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    padding: 0.6rem 4vw calc(0.6rem + env(safe-area-inset-bottom));
+    background: rgba(246, 241, 231, 0.96);
+    border-top: 1px solid var(--line);
+  }
+  .call-dock .btn {
+    display: block;
+    text-align: center;
+  }
+  body {
+    padding-bottom: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="cascade"] > *,
+  .hero-img {
+    opacity: 1;
+    transform: none !important;
+    transition: none;
+  }
+  .btn:hover {
+    transform: none;
+  }
+}
