@@ -1,0 +1,604 @@
+/* HVAControl Inc. — navy ink on stucco-warm paper, one amber Call pill. */
+:root {
+  --field: #faf5eb;
+  --ink: #102a43;
+  --call: #f2a007;
+  --call-ink: #102a43;
+  --ghost: #102a43;
+  --accent: #c65d3a;
+  --card: #fffdf7;
+  --line: #d8cdb4;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo-alt: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --dur-fast: 0.3s;
+  --dur-hover: 0.5s;
+  --dur-enter: 0.7s;
+  --dur-nav: 0.8s;
+  --dur-hero: 1.5s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4em;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--field);
+  padding: 0.5rem 1rem;
+}
+
+/* Header: wordmark left, jumps, Call as a solid pill. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.85rem 4vw;
+  background: var(--field);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-header nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  transition: background var(--dur-fast) var(--ease-out-circ), color var(--dur-fast) var(--ease-out-circ), transform var(--dur-fast) var(--ease-out-circ);
+}
+.btn:hover {
+  transform: translate3d(0, -2px, 0);
+}
+.btn-fill {
+  background: var(--call);
+  color: var(--call-ink);
+}
+.btn-ghost {
+  border: 1px solid currentColor;
+  color: var(--ghost);
+}
+.call-nowrap {
+  white-space: nowrap;
+}
+
+/* Signature flourish: underline grows from the left. */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-out-expo-alt);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Hero: full-bleed plate, copy on the image in frosted glass. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+.hero-img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--dur-hero) var(--ease-out-expo);
+}
+.hero.is-in .hero-img,
+.hero-img.is-in {
+  opacity: 1;
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 38rem;
+  margin: 4rem 6vw;
+  padding: 2.25rem 2.5rem;
+  background: rgba(250, 245, 235, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(16, 42, 67, 0.14);
+}
+
+.kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.8rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 1.5rem 0 0;
+}
+
+.hero-proof {
+  margin: 1.25rem 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-top: 2px solid var(--call);
+  padding-top: 0.9rem;
+}
+
+/* Sections. */
+section {
+  padding: 5rem 6vw;
+}
+
+.section-head {
+  max-width: 44rem;
+  margin-bottom: 3rem;
+}
+
+.section-head p {
+  max-width: 42rem;
+}
+
+/* Services river: illustration one half, text the other, flipping each row. */
+.river {
+  display: grid;
+  gap: 3.5rem;
+  max-width: 70rem;
+}
+
+.river-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.river-row.flip figure {
+  order: 2;
+}
+
+.river-row figure {
+  margin: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.river-row h3 {
+  margin-top: 0;
+}
+
+.river-row p {
+  margin-bottom: 0;
+  max-width: 34rem;
+}
+
+/* About. */
+#about {
+  background: var(--ink);
+  color: var(--field);
+}
+
+#about .kicker {
+  color: var(--call);
+}
+
+#about a {
+  color: var(--call);
+}
+
+.reviews,
+.faq {
+  padding: 5rem 6vw;
+}
+
+.reviews .section-head,
+.faq .section-head {
+  max-width: 36rem;
+  margin-bottom: 2rem;
+}
+
+.review-carousel .review-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.review-slide blockquote {
+  margin: 0;
+  max-width: 40rem;
+  border-left: 3px solid var(--call);
+  padding-left: 1.5rem;
+}
+
+.review-slide p {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin: 0 0 1rem;
+}
+
+.review-slide footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.92rem;
+}
+
+.review-slide cite {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.review-nav {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.review-prev,
+.review-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out-circ);
+}
+
+.review-prev:hover,
+.review-next:hover {
+  transform: translate3d(0, -2px, 0);
+}
+
+.review-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.review-dots button {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.28;
+  cursor: pointer;
+}
+
+.review-dots button[aria-current="true"] {
+  opacity: 1;
+}
+
+.review-carousel.is-carousel .review-viewport {
+  overflow: hidden;
+}
+
+.review-carousel.is-carousel .review-track {
+  display: flex;
+  gap: 0;
+  transition: transform var(--dur-enter) var(--ease-out-expo);
+}
+
+.review-carousel.is-carousel .review-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.review-carousel.is-carousel .review-nav {
+  display: flex;
+}
+
+.faq-list {
+  max-width: 40rem;
+}
+
+.faq-list details {
+  border-top: 1px solid currentColor;
+}
+
+.faq-list details:last-child {
+  border-bottom: 1px solid currentColor;
+}
+
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.1rem 0;
+  font-weight: 600;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list details p {
+  margin: 0 0 1.15rem;
+  max-width: 42ch;
+}
+
+/* Contact. */
+#contact {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 70rem;
+}
+
+.contact-lines p {
+  margin: 0 0 1rem;
+}
+
+.contact-lines a {
+  font-weight: 600;
+}
+
+.contact-lines form {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  max-width: 26rem;
+}
+
+.contact-lines label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.contact-lines input,
+.contact-lines textarea {
+  font: inherit;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--ink);
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.8rem;
+  width: 100%;
+}
+
+.contact-lines button {
+  justify-self: start;
+  border: 0;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.contact-map iframe {
+  width: 100%;
+  min-height: 22rem;
+  border-radius: 1rem;
+  display: block;
+}
+
+/* Footer. */
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  align-items: baseline;
+  padding: 2.5rem 6vw 4rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Sticky Call dock: the easiest tap on a narrow screen. */
+.call-dock {
+  display: none;
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 6;
+  text-align: center;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 2px 12px rgba(16, 42, 67, 0.25);
+}
+
+/* 390: same idea, narrower. Illustration sits above its text. */
+@media (max-width: 750px) {
+  .site-header nav {
+    display: none;
+  }
+
+  .site-header {
+    padding: 0.7rem 4vw;
+  }
+
+  .site-header .btn {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-copy {
+    margin: 3rem 4vw;
+    padding: 1.6rem 1.4rem;
+  }
+
+  .river-row,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .river-row.flip figure {
+    order: 0;
+  }
+
+  section {
+    padding: 3.5rem 5vw;
+  }
+
+  .call-dock {
+    display: block;
+  }
+
+  .site-footer {
+    padding-bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="cascade"] > *,
+  .hero-img {
+    opacity: 1;
+    transform: none !important;
+    transition: none;
+  }
+  .btn:hover,
+  .review-prev:hover,
+  .review-next:hover {
+    transform: none;
+  }
+
+  .review-carousel.is-carousel .review-track {
+    transition: none;
+  }
+}
