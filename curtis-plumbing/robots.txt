@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.curtisplumbingsince1939.com/sitemap.xml
