@@ -1,0 +1,546 @@
+/* H.D. Production Plumbing — the family contractor's handshake. */
+:root {
+  --field: #f6f1e7;
+  --ink: #152638;
+  --call: #a34a12;
+  --ghost: #152638;
+  --accent: #c9a227;
+  --wash: #152638;
+  --card: #efe7d6;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo-alt: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --dur-fast: 0.3s;
+  --dur-hover: 0.5s;
+  --dur-enter: 0.7s;
+  --dur-hero: 1.5s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5.2vw, 4.25rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--field);
+  padding: 0.5rem 1rem;
+}
+
+.kicker {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--call);
+  margin: 0 0 0.9rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  transition: background var(--dur-fast) var(--ease-out-circ), color var(--dur-fast) var(--ease-out-circ), transform var(--dur-fast) var(--ease-out-circ), border-color var(--dur-fast) var(--ease-out-circ);
+}
+.btn:hover {
+  transform: translate3d(0, -2px, 0);
+}
+.btn-fill {
+  background: var(--call);
+  color: #fff;
+}
+.btn-fill:hover {
+  background: #8a3d0e;
+}
+.btn-ghost {
+  border-color: currentColor;
+  color: var(--ghost);
+}
+.call-nowrap {
+  white-space: nowrap;
+}
+
+/* Signature flourish: underline grows from the left. */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-out-expo-alt);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* A block of copy that belongs together: the container holds still and its
+   children come in one after another, top first. motion.js sets the delays. */
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Header. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem 4vw;
+  background: var(--field);
+  border-bottom: 1px solid rgba(21, 38, 56, 0.14);
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  margin-right: auto;
+}
+.brand span {
+  color: var(--call);
+}
+.site-header nav {
+  display: flex;
+  gap: 1.4rem;
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+.site-header .btn {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.95rem;
+}
+
+/* Hero. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 92dvh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+.hero-img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  object-position: 68% 28%;
+  opacity: 0;
+  transition: opacity var(--dur-hero) var(--ease-out-expo);
+}
+.hero.is-in .hero-img,
+.hero-img.is-in {
+  opacity: 1;
+}
+.hero-slab {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(16, 28, 42, 0.92) 0%, rgba(16, 28, 42, 0.72) 42%, rgba(16, 28, 42, 0.18) 72%, rgba(16, 28, 42, 0.05) 100%);
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 38rem;
+  padding: 5rem 4vw;
+}
+.hero-copy .kicker {
+  color: var(--accent);
+}
+.hero-copy p {
+  font-size: 1.15rem;
+  max-width: 34rem;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.8rem 0 1.2rem;
+}
+.hero-actions .btn-ghost {
+  color: #fff;
+}
+.hero-proof {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* Sections. */
+.services,
+.about,
+.projects,
+.faq,
+.area,
+.contact {
+  padding: 5rem 4vw;
+}
+.section-head {
+  max-width: 42rem;
+  margin-bottom: 3rem;
+}
+
+/* Services river. */
+.river {
+  display: grid;
+  gap: 3.5rem;
+  max-width: 72rem;
+}
+.river-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.river-row:nth-child(even) figure {
+  order: 2;
+}
+.river-row figure {
+  margin: 0;
+  background: var(--card);
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+.river-row img {
+  width: 100%;
+}
+.river-row p {
+  margin: 0;
+  max-width: 30rem;
+}
+
+/* About — navy wash. */
+.about {
+  background: var(--wash);
+  color: var(--field);
+}
+.about .kicker {
+  color: var(--accent);
+}
+.about-body {
+  max-width: 44rem;
+}
+.about-body p {
+  margin: 0 0 1.2rem;
+}
+
+/* Projects. */
+.project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 72rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+.project-list li {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(21, 38, 56, 0.2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  align-items: baseline;
+}
+.project-list li span {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--call);
+}
+
+/* FAQ + reviews share the template blocks. */
+.reviews,
+.faq {
+  padding: 5rem 6vw;
+}
+.reviews .section-head,
+.faq .section-head {
+  max-width: 36rem;
+  margin-bottom: 2rem;
+}
+.faq-list {
+  max-width: 44rem;
+}
+.faq-list details {
+  border-top: 1px solid currentColor;
+}
+.faq-list details:last-child {
+  border-bottom: 1px solid currentColor;
+}
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.1rem 0;
+  font-weight: 600;
+}
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.faq-list details p {
+  margin: 0 0 1.15rem;
+  max-width: 46ch;
+}
+
+/* Contact. */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 72rem;
+  align-items: start;
+}
+.contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+}
+.contact-info svg {
+  flex: none;
+  color: var(--call);
+}
+.map {
+  width: 100%;
+  height: 280px;
+  border: 0;
+  border-radius: 1rem;
+  margin-top: 1rem;
+}
+.contact-form {
+  display: grid;
+  gap: 1rem;
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 1.25rem;
+}
+.contact-form label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(21, 38, 56, 0.3);
+  border-radius: 0.6rem;
+  background: #fff;
+  color: var(--ink);
+  width: 100%;
+}
+.contact-form button {
+  border: 0;
+  cursor: pointer;
+  justify-content: center;
+}
+.form-note {
+  font-size: 0.85rem;
+  margin: 0;
+  opacity: 0.75;
+}
+
+/* Footer. */
+.site-footer {
+  padding: 2.5rem 4vw 3rem;
+  border-top: 1px solid rgba(21, 38, 56, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  font-size: 0.95rem;
+}
+.site-footer p {
+  margin: 0;
+}
+
+/* Sticky call dock — narrow screens only. */
+.call-dock {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .river-row {
+    gap: 2rem;
+  }
+  .project-list {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header nav {
+    display: none;
+  }
+  .site-header {
+    gap: 1rem;
+  }
+  .brand {
+    font-size: 1rem;
+  }
+  .site-header .btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.85rem;
+  }
+  .river-row {
+    grid-template-columns: 1fr;
+  }
+  .river-row:nth-child(even) figure {
+    order: 0;
+  }
+  .hero {
+    min-height: 100dvh;
+  }
+  .hero-copy {
+    padding: 4rem 6vw 6rem;
+  }
+  .services,
+  .about,
+  .projects,
+  .faq,
+  .area,
+  .contact {
+    padding: 4rem 6vw;
+  }
+  .call-dock {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 6;
+    padding: 0.7rem 6vw calc(0.7rem + env(safe-area-inset-bottom));
+    background: rgba(246, 241, 231, 0.96);
+    border-top: 1px solid rgba(21, 38, 56, 0.14);
+  }
+  .call-dock .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  body {
+    padding-bottom: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="cascade"] > *,
+  .hero-img {
+    opacity: 1;
+    transform: none !important;
+    transition: none;
+  }
+  .btn:hover {
+    transform: none;
+  }
+}
