@@ -1,0 +1,530 @@
+/* Sternshein CPAs — a quiet ledger. Paper, ink, one brass rule. */
+:root {
+  --field: #faf6ef;
+  --ink: #1c2a38;
+  --ink-soft: #33475c;
+  --call: #1c2a38;
+  --call-text: #faf6ef;
+  --ghost: #faf6ef;
+  --accent: #a97e2f;
+  --brass-deep: #7a5a1e;
+  --hairline: #d9cfbd;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo-alt: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --dur-fast: 0.3s;
+  --dur-hover: 0.5s;
+  --dur-enter: 0.7s;
+  --dur-nav: 0.8s;
+  --dur-hero: 1.5s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  margin: 0 0 0.4em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5.2vw, 4.25rem);
+}
+
+h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+}
+
+h3 {
+  font-size: 1.45rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--field);
+  padding: 0.5rem 1rem;
+}
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+  margin: 0 0 0.9rem;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 2px;
+  transition: background var(--dur-fast) var(--ease-out-circ), color var(--dur-fast) var(--ease-out-circ), transform var(--dur-fast) var(--ease-out-circ);
+}
+.btn:hover {
+  transform: translate3d(0, -2px, 0);
+}
+.btn-fill {
+  background: var(--call);
+  color: var(--call-text);
+}
+.btn-ghost {
+  border: 1px solid currentColor;
+  color: var(--ghost);
+}
+.call-nowrap {
+  white-space: nowrap;
+}
+
+/* Signature flourish: underline grows from the left. */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-out-expo-alt);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Header: wordmark, jumps, Call pill. Never animated. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem 4vw;
+  background: var(--field);
+  border-bottom: 2px solid var(--accent);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  text-decoration: none;
+  margin-right: auto;
+  white-space: nowrap;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.site-header .btn {
+  padding: 0.6rem 1.15rem;
+  font-size: 0.95rem;
+}
+
+/* Hero: copy on the plate, gradient slab, faces right and high. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100dvh;
+}
+.hero-img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0;
+  transition: opacity var(--dur-hero) var(--ease-out-expo);
+}
+.hero.is-in .hero-img,
+.hero-img.is-in {
+  opacity: 1;
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 38rem;
+  margin: 0 auto 0 6vw;
+  padding: 22vh 2.5rem 10vh 0;
+  color: var(--field);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(95deg, rgba(22, 32, 45, 0.88) 0%, rgba(22, 32, 45, 0.62) 42%, rgba(22, 32, 45, 0) 72%);
+  z-index: 0;
+}
+.hero-copy .kicker {
+  color: var(--accent);
+}
+.hero-copy h1 em {
+  color: var(--accent);
+}
+.hero-copy p {
+  max-width: 34rem;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.6rem 0 0.6rem;
+}
+.hero-phone {
+  font-size: 0.98rem;
+}
+.hero-phone a {
+  font-weight: 600;
+}
+
+/* Sections. */
+.services,
+.firm,
+.faq,
+.area,
+.contact {
+  padding: 5rem 6vw;
+}
+
+.section-head {
+  max-width: 44rem;
+  margin-bottom: 2.5rem;
+}
+.section-head p {
+  max-width: 38rem;
+}
+
+/* Services river: illustration and text swap sides each row. */
+.river {
+  display: grid;
+  gap: 4rem;
+  max-width: 72rem;
+}
+.river-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.river-row:nth-child(even) img {
+  order: 2;
+}
+.river-row img {
+  border: 1px solid var(--hairline);
+  background: var(--field);
+}
+.river-text h3 {
+  margin-bottom: 0.35rem;
+}
+.river-text p {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 30rem;
+}
+
+.firm {
+  background: var(--ink);
+  color: var(--field);
+}
+.firm .section-head {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.75rem;
+}
+.firm .kicker {
+  color: var(--accent);
+}
+.firm p {
+  max-width: 42rem;
+}
+
+.faq-list {
+  max-width: 44rem;
+}
+.faq-list details {
+  border-top: 1px solid var(--hairline);
+}
+.faq-list details:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.1rem 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.faq-list details p {
+  margin: 0 0 1.15rem;
+  max-width: 42ch;
+  color: var(--ink-soft);
+}
+
+.map {
+  width: 100%;
+  max-width: 72rem;
+  border: 1px solid var(--hairline);
+  display: block;
+}
+
+/* Contact. */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 2.5rem;
+  max-width: 72rem;
+}
+.contact-card {
+  border-top: 2px solid var(--accent);
+  padding-top: 1.1rem;
+}
+.contact-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0 0 0.6rem;
+}
+.contact-card p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0.45rem 0;
+}
+.contact-card svg {
+  flex: none;
+  margin-top: 0.25rem;
+  color: var(--brass-deep);
+}
+.contact-form {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1.5rem;
+  border: 1px solid var(--hairline);
+  padding: 1.75rem;
+  background: var(--field);
+}
+.contact-form .field {
+  display: grid;
+  gap: 0.3rem;
+}
+.contact-form .field:nth-child(5) {
+  grid-column: 1 / -1;
+}
+.contact-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+}
+.contact-form input,
+.contact-form textarea {
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 0.4rem 0;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.contact-form .btn {
+  grid-column: 1 / -1;
+  justify-self: start;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+.form-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.site-footer {
+  background: var(--ink);
+  color: var(--field);
+  padding: 2rem 6vw;
+  font-size: 0.95rem;
+}
+.site-footer p {
+  margin: 0;
+  max-width: 60rem;
+}
+
+/* Motion hooks. */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+[data-reveal="cascade"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+[data-reveal="cascade"] > * {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  transition:
+    opacity var(--dur-enter) var(--ease-out-expo),
+    transform var(--dur-enter) var(--ease-out-expo);
+}
+[data-reveal="cascade"].is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 390: Call stays one line; hero copy pins to the bottom third. */
+@media (max-width: 640px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    padding: 0.7rem 4vw;
+  }
+  .brand {
+    font-size: 1.15rem;
+  }
+  .site-header nav {
+    order: 3;
+    flex-basis: 100%;
+    gap: 1.1rem;
+    overflow-x: auto;
+    font-size: 0.92rem;
+    padding-bottom: 0.2rem;
+  }
+  .site-header .btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100dvh;
+  }
+  .hero::before {
+    background: linear-gradient(180deg, rgba(22, 32, 45, 0) 40%, rgba(22, 32, 45, 0.82) 72%);
+  }
+  .hero-img {
+    object-position: center 18%;
+  }
+  .hero-copy {
+    width: auto;
+    max-width: none;
+    margin: 0 1rem calc(1rem + env(safe-area-inset-bottom));
+    padding: 1.15rem 1.1rem 1.05rem;
+  }
+  .hero-copy h1 {
+    font-size: 2rem;
+  }
+  .hero-copy > p:nth-of-type(2),
+  .hero-phone {
+    display: none;
+  }
+
+  .services,
+  .firm,
+  .faq,
+  .area,
+  .contact {
+    padding: 3.5rem 5vw;
+  }
+  .river-row {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .river-row:nth-child(even) img {
+    order: 0;
+  }
+  .contact-grid,
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+  .map {
+    height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="cascade"] > *,
+  .hero-img {
+    opacity: 1;
+    transform: none !important;
+    transition: none;
+  }
+  .btn:hover {
+    transform: none;
+  }
+}
